@@ -21,4 +21,14 @@ if(BUILD_TESTING)
     add_test(NAME Hlsl2GlslUnitTests
             COMMAND hlsl2glsl_unit_tests
             WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+
+    add_executable(hlsl2glsl_vert_frag
+            convert_test.cpp)
+    set_property(TARGET hlsl2glsl_vert_frag PROPERTY CXX_STANDARD 17)
+    set_property(TARGET hlsl2glsl_vert_frag PROPERTY CXX_STANDARD_REQUIRED ON)
+    target_link_libraries(hlsl2glsl_vert_frag hlsl2glsl gtest gmock gtest_main)
+
+    add_test(NAME Hlsl2GlslVertFrag
+            COMMAND hlsl2glsl_vert_frag
+            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
 endif()
