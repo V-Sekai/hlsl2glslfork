@@ -303,12 +303,16 @@ TSymbolTableLevel* TSymbolTableLevel::clone(TStructureMap& remapper)
 // This is the sort function for parameter matching in findCompatible method below
 bool parameterSizeSortFunction(TParameter left, TParameter right) {
 	// non-numeric types come first
-	if (!IsNumeric(left.type->getBasicType()))
+	if (!IsNumeric(left.type->getBasicType()) && IsNumeric(right.type->getBasicType()))
 		return true;
 	else if (IsNumeric(left.type->getBasicType()) && !IsNumeric(right.type->getBasicType()))
 		return false;
 	// then sort according to numeric type's dimension in descending order
-	else return (left.type->getColsCount() >= right.type->getColsCount() && left.type->getRowsCount() >= right.type->getRowsCount());
+	else if (left.type->getColsCount() > right.type->getColsCount())
+		return true;
+	else if (left.type->getColsCount() < right.type->getColsCount())
+		return false;
+	else return (left.type->getRowsCount() > right.type->getRowsCount());
 }
 
 // This function uses the matching rules as described in the Cg language doc (the closest
